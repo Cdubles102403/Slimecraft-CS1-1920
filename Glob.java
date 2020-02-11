@@ -9,12 +9,11 @@ import java.awt.Color;
 
 /**
  *
- * @author jword
+ * @author CSchafer
  */
 public class Glob extends Slime {
     private static final int SPEED = 3;
-    private static final Color COLOR = Color.RED;
-        
+    private static final Color COLOR = Color.BLUE;
     public Glob(int x, int y) {
         super(SPEED, x, y, COLOR);
     }  

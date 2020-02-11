@@ -4,14 +4,13 @@
  * and open the template in the editor.
  */
 package slimecraft;
-
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
 /**
  *
- * @author jword
+ * @author CSchafer
  */
 public abstract class Sprite {
     private int speed;

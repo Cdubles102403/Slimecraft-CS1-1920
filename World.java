@@ -11,16 +11,17 @@ import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.JPanel;
 
+
 /**
  *
- * @author jword
+ * @author CSchafer
  */
 public class World extends JPanel {
-    private ArrayList<Blob> blobs = new ArrayList<>();    
+    private ArrayList<Blob> blobs = new ArrayList<>();  
+    private ArrayList<Slime> slimes = new ArrayList<>();   
     private ArrayList<Glob> globs = new ArrayList<>();    
     private ArrayList<Sprite> sprites = new ArrayList<>();
     private ArrayList<Food> foods = new ArrayList<>();   
-    private ArrayList<Slime> slimes = new ArrayList<>();   
     Timer timer;
     
     public World() {
@@ -35,6 +36,7 @@ public class World extends JPanel {
             slimes.add(blob);
             blobs.add(blob);
         }
+        
         for (int i = 0; i < 500; i++) {
             int x = (int) (Math.random() * 800 / 2 + 800 / 2);
             int y = (int) (Math.random() * 600);
@@ -43,8 +45,9 @@ public class World extends JPanel {
             slimes.add(glob);    
             globs.add(glob);    
         }
-        for (int i = 0; i < 200; i++) {
-            int x = (int) (Math.random() * 800 / 2 + 800 / 2);
+        
+        for (int i = 0; i < 400; i++) {
+            int x = (int) (Math.random() * 800);
             int y = (int) (Math.random() * 600);
             Food food = new Food(x,y);
             foods.add(food);
@@ -72,7 +75,7 @@ public class World extends JPanel {
         
         for (Blob blob : blobs) {
             for (Glob glob : globs) {
-                blob.fight(glob)
+                blob.fight(glob);
             }
         }
         
@@ -80,31 +83,35 @@ public class World extends JPanel {
     }
     
     private void takeOutTheTrash() {
-        ArrayList<Sprite> trash = new ArrayList<>();
+        ArrayList<Sprite> trashMan = new ArrayList<>();
         for (Sprite sprite : sprites) {
             if (!sprite.isAlive())
-                trash.add(sprite);
+                trashMan.add(sprite);
         }
-        sprites.removeAll(trash);
-        trash.clear();
+        
+        sprites.removeAll(trashMan);
+        trashMan.clear();
         for (Food food : foods) {
             if (!food.isAlive())
-                trash.add(food);
+                trashMan.add(food);
         }
-        foods.removeAll(trash);
-        trash.clear();
+        
+        foods.removeAll(trashMan);
+        trashMan.clear();
         for (Blob blob : blobs) {
             if (!blob.isAlive())
-                trash.add(blob);
+                trashMan.add(blob);
         }
-        blobs.removeAll(trash);
-        trash.clear();
+        
+        blobs.removeAll(trashMan);
+        trashMan.clear();
         for (Glob glob : globs) {
             if (!glob.isAlive())
-                trash.add(glob);
+                trashMan.add(glob);
         }
-        globs.removeAll(trash);
-        trash.clear();        
+        
+        globs.removeAll(trashMan);
+        trashMan.clear();        
     }
     
     private class ScheduleTask extends TimerTask {

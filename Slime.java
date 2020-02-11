@@ -5,12 +5,13 @@
  */
 package slimecraft;
 
+
 import java.awt.Color;
 import java.awt.Graphics;
 
 /**
  *
- * @author jword
+ * @author CSchafer
  */
 public class Slime extends Sprite {
     //static constants
@@ -40,6 +41,10 @@ public class Slime extends Sprite {
 
     public int getStrength() {
         return strength;
+    }
+    
+    public void Win(){
+        this.strength++;
     }
     
 }
