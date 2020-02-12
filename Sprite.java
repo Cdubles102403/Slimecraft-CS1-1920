@@ -30,6 +30,12 @@ public abstract class Sprite {
         this.height = height;
         this.color = color;
         this.bounds = new Rectangle(x, y, width, height);
+        if(this.vx==0){
+            this.vx=1;
+        }
+        if(this.vy==0){
+            this.vy=1;
+        }
     }
     
     public void update() {
@@ -93,4 +99,16 @@ public abstract class Sprite {
         this.vx = -this.vx;
         this.vy = -this.vy;
     }
+
+    public int getSpeed() {
+        return speed;
+    }
+    
+    public void collideWorldBounds(int cWidth, int cHeight) {
+        if (this.x < 0 || this.x + this.width > cWidth)
+            this.vx = -this.vx;
+        if (this.y < 0 || this.y + this.height > cHeight)
+            this.vy = -this.vy;       
+    }
+    
 }

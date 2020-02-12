@@ -17,6 +17,7 @@ public class Slime extends Sprite {
     //static constants
     private static final int WIDTH = 10;
     private static final int HEIGHT = 15;
+    private static boolean virus = false;
     private int strength;
     
     
@@ -35,7 +36,13 @@ public class Slime extends Sprite {
     
     @Override
     public void draw(Graphics g) {
-        g.setColor(super.getColor());
+        if(this.virus==true){
+         g.setColor(Color.red);   
+        }
+        else{
+            g.setColor(super.getColor());
+        }
+        
         g.fillRect(super.getX(), super.getY(), super.getWidth(), super.getHeight());
     }
 
@@ -45,6 +52,12 @@ public class Slime extends Sprite {
     
     public void Win(){
         this.strength++;
+    }
+    public void infect(){
+        this.virus = true;
+    }
+    public boolean Infected(){
+        return this.virus;
     }
     
 }
