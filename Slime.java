@@ -17,7 +17,7 @@ public class Slime extends Sprite {
     //static constants
     private static final int WIDTH = 10;
     private static final int HEIGHT = 15;
-    private static boolean virus = false;
+    private  boolean virus = false;
     private int strength;
     
     
@@ -36,6 +36,10 @@ public class Slime extends Sprite {
     
     @Override
     public void draw(Graphics g) {
+        if(this.Infected()){
+            this.strength=this.strength*2;
+            this.speed=5;
+        }
         if(this.virus==true){
          g.setColor(Color.red);   
         }

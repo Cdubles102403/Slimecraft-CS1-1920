@@ -20,6 +20,10 @@ public class Blob extends Slime {
     
     public void fight(Glob glob) {
         if (super.collide(glob)) {
+            if(this.Infected() || glob.Infected()){
+                this.infect();
+                glob.infect();
+            }
             if (super.getStrength() >= glob.getStrength()) {
                 this.Win();
                 glob.die();

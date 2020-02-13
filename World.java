@@ -26,9 +26,9 @@ public class World extends JPanel {
     
     public World() {
         timer = new Timer();
-        timer.scheduleAtFixedRate(new ScheduleTask(), 100, 1000/12);
+        timer.scheduleAtFixedRate(new ScheduleTask(), 100, 1000/30);
         super.setSize(800, 600);
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 40; i++) {
             int x = (int) (Math.random() * 800 / 2);
             int y = (int) (Math.random() * 600);
             Blob blob = new Blob(x,y);
@@ -36,7 +36,7 @@ public class World extends JPanel {
             slimes.add(blob);
             blobs.add(blob);
         }
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 40; i++) {
             int x = (int) (Math.random() * 800 / 2 + 800 / 2);
             int y = (int) (Math.random() * 600);
             Glob glob = new Glob(x,y);
@@ -44,15 +44,15 @@ public class World extends JPanel {
             slimes.add(glob);    
             globs.add(glob);    
         }
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 40; i++) {
             int x = (int) (Math.random() * 800);
             int y = (int) (Math.random() * 600);
             Food food = new Food(x,y);
             foods.add(food);
             sprites.add(food);
         }
-        int infected = (int) Math.random()*slimes.size();
-        slimes.get(infected).Infected();
+        int infected = (int) (Math.random()*slimes.size());
+        slimes.get(infected).infect();
     }
     
     public void paintComponent(Graphics g) {
@@ -73,21 +73,31 @@ public class World extends JPanel {
             }
             for (Blob otherBlob : blobs) {
                 if (blob == otherBlob) continue;
-                if (blob.collide(otherBlob) && Math.random() < .03)
-                    newBlobs.add(blob.reproduce(otherBlob));
+                if (blob.collide(otherBlob) && Math.random() < .003 && blobs.size()<500){
+                    Blob newBlob = blob.reproduce(otherBlob);
                 if(blob.Infected()==true || otherBlob.Infected()==true){
-                  newBlobs.get(newBlobs.size()-1).infect();  
+                    newBlob.infect();
+                    otherBlob.infect();
+                    blob.infect();
                 }
+                newBlobs.add(newBlob);
+                }
+                
             }
         }
         for (Glob glob : globs) {
             for (Glob otherGlob : globs) {
                 if (glob == otherGlob) continue;
-                if (glob.collide(otherGlob) && Math.random() < .03)
-                    newGlobs.add(glob.reproduce(otherGlob));
-                if(glob.Infected()==true || otherGlob.Infected()==true){
-                    newGlobs.get(newGlobs.size()-1).infect();
+                if (glob.collide(otherGlob) && Math.random() < .003  && globs.size()<500){
+                    Glob NewGlob = glob.reproduce(otherGlob);
+                    if(glob.Infected()==true || otherGlob.Infected()==true){
+                        NewGlob.infect();
+                        otherGlob.infect();
+                        glob.infect();
                 }
+                    newGlobs.add(NewGlob);
+                }
+                
             }
         }
         for (Sprite sprite : sprites) {

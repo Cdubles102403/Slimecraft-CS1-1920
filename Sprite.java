@@ -13,7 +13,7 @@ import java.awt.Rectangle;
  * @author CSchafer
  */
 public abstract class Sprite {
-    private int speed;
+     int speed;
     private int x, y, vx, vy;
     private int width, height;
     private Color color;
