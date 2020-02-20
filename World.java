@@ -1,11 +1,17 @@
 /*
  * To change this license header, choose License Headers in Project Properties.
+
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 package slimecraft;
 
 import java.awt.Graphics;
+import java.awt.MouseInfo;
+import java.awt.Point;
+import java.awt.PointerInfo;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -16,19 +22,23 @@ import javax.swing.JPanel;
  *
  * @author CSchafer
  */
-public class World extends JPanel {
+public class World extends JPanel implements MouseListener {
     private ArrayList<Blob> blobs = new ArrayList<>();    
     private ArrayList<Glob> globs = new ArrayList<>();    
     private ArrayList<Sprite> sprites = new ArrayList<>();
     private ArrayList<Food> foods = new ArrayList<>();   
     private ArrayList<Slime> slimes = new ArrayList<>();
     Timer timer;
+    private int frames = 0;
+    private boolean clicked;
+    
     
     public World() {
+        this.addMouseListener(this);
         timer = new Timer();
         timer.scheduleAtFixedRate(new ScheduleTask(), 100, 1000/30);
         super.setSize(800, 600);
-        for (int i = 0; i < 40; i++) {
+        for (int i = 0; i < 10; i++) {
             int x = (int) (Math.random() * 800 / 2);
             int y = (int) (Math.random() * 600);
             Blob blob = new Blob(x,y);
@@ -36,7 +46,7 @@ public class World extends JPanel {
             slimes.add(blob);
             blobs.add(blob);
         }
-        for (int i = 0; i < 40; i++) {
+        for (int i = 0; i < 10; i++) {
             int x = (int) (Math.random() * 800 / 2 + 800 / 2);
             int y = (int) (Math.random() * 600);
             Glob glob = new Glob(x,y);
@@ -56,6 +66,17 @@ public class World extends JPanel {
     }
     
     public void paintComponent(Graphics g) {
+        frames++;
+        spawn();
+        //kill all infected after 1 min
+        if(frames%1800==0){
+            System.out.println("running");
+            for(Slime slime: slimes){
+                if(slime.Infected()){
+                    slime.die();
+                }
+            }
+        }
         super.paintComponent(g);
         
         for (Slime slime : slimes) {
@@ -145,11 +166,41 @@ public class World extends JPanel {
         globs.removeAll(trashMan);
         trashMan.clear();        
     }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {}
+
+    @Override
+    public void mousePressed(MouseEvent e) { clicked = true; }
+
+    @Override
+    public void mouseReleased(MouseEvent e) { clicked = false; }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {}
+
+    @Override
+    public void mouseExited(MouseEvent e) {}
+    
+    
     
     private class ScheduleTask extends TimerTask {
         @Override
         public void run() {
             repaint();
+        }
+    }
+    public void spawn(){
+        if(clicked){
+        PointerInfo a = MouseInfo.getPointerInfo();
+        Point b = a.getLocation();
+        int x = (int) b.getX();
+        int y = (int) b.getY();
+        System.out.printf("\nMouse Click at (%d, %d)",x, y);
+        Blob blob = new Blob(x, y);
+        blobs.add(blob);
+        slimes.add(blob);
+        sprites.add(blob);
         }
     }
 }
